@@ -24,7 +24,30 @@ function listarTarefaId(req, res) {
   res.json(tarefa[0]);
 }
 
+function listarTarefas(req, res) {
+  const pagina = req.query['pag'] || 1;
+  const ordem = req.query['ordem'];
+  const filtroTarefa = req.query['filtro-tarefa'];
+  const itensPorPagina = req.query['itens-por-pagina'] || 3;
+  let tarefaRetornar = tarefas.slice(0);
+  //Filtrar
+  if (filtroTarefa)
+    tarefaRetornar = tarefaRetornar.filter(t => t.nome.toLowerCase().indexOf(filtroTarefa.toLowerCase()) === 0);
+  //Ordernar
+  if (ordem === 'ASC')
+    tarefaRetornar.sort((t1, t2) => (t1.nome.toLowerCase() > t2.nome.toLowerCase()) ? 1 : -1);
+  else if (ordem === 'DESC')
+    tarefaRetornar.sort((t1, t2) => (t1.nome.toLowerCase() < t2.nome.toLowerCase()) ? 1 : -1);
+  //Retornar
+  res.json({
+    totalItens: tarefaRetornar.length,
+    tarefas: tarefaRetornar.slice(0).splice((pagina - 1) * itensPorPagina, itensPorPagina),
+    pagina: pagina
+  })
+}
+
 module.exports = {
   listarTarefaId,
+  listarTarefas,
   naoImplementado
 }

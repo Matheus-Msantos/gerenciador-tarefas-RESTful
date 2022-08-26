@@ -2,7 +2,7 @@ const express = require('express');
 const cors = require('cors');
 const bodyParser = require('body-parser');
 
-const { listarTarefaId, naoImplementado } = require('./controllers/gerenciador-tarefas.js');
+const { listarTarefaId, listarTarefas, naoImplementado } = require('./controllers/gerenciador-tarefas.js');
 
 const app = express();
 const port = 3001;
@@ -13,7 +13,7 @@ app.use(bodyParser.json());
 
 //Requisições (get, post, put, delete)
 //Listar todas as tarefas
-app.get('/gerenciador-tarefas', naoImplementado);
+app.get('/gerenciador-tarefas', listarTarefas);
 //Listar tarefa por ID
 app.get('/gerenciador-tarefas/:id', listarTarefaId);
 //Cadastrar uma tarefa
