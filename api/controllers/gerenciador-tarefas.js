@@ -13,7 +13,6 @@ function naoImplementado(req, res) {
   });
 }
 
-
 function listarTarefaId(req, res) {
   const id = req.params.id;
   const tarefa = tarefas.filter(tarefa => tarefa.id === id);
@@ -46,8 +45,23 @@ function listarTarefas(req, res) {
   })
 }
 
+function cadastrarTarefa(req, res) {
+  if (!req.body['nome'] && !req.body['concluida'])
+    res.status(400).json({ erro: 'Requisição inválida.' });
+
+  const novaTarefa = {
+    'id': uuid(),
+    'nome': req.body['nome'],
+    'concluida': req.body['concluida']
+  };
+
+  tarefas.push(novaTarefa);
+  res.json(tarefas);
+}
+
 module.exports = {
   listarTarefaId,
   listarTarefas,
-  naoImplementado
+  naoImplementado,
+  cadastrarTarefa
 }
