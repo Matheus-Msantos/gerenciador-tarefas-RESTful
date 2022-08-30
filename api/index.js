@@ -8,7 +8,8 @@ const {
   naoImplementado,
   cadastrarTarefa,
   atualizarTarefa,
-  removerTarefa
+  removerTarefa,
+  concluirTarefa
 } = require('./controllers/gerenciador-tarefas.js');
 
 const app = express();
@@ -30,7 +31,7 @@ app.put('/gerenciador-tarefas/:id', atualizarTarefa);
 //Excluir uma tarefa
 app.delete('/gerenciador-tarefas/:id', removerTarefa);
 //Concluir uma tarefa
-app.put('/gerenciador-tarefas/:id/concluir', naoImplementado);
+app.put('/gerenciador-tarefas/:id/concluir', concluirTarefa);
 
 
 
