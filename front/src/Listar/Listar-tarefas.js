@@ -5,7 +5,7 @@ import Ordenacao from './ordenacao';
 
 function ListarTarefas() {
 
-  const ITENS_POR_PAG = 3
+  const ITENS_POR_PAG = 10
 
   const [tarefas, setTarefas] = useState([]);
   const [carregarTarefas, setCarregarTarefas] = useState(true);
@@ -73,19 +73,18 @@ function ListarTarefas() {
 
       <div className="g-listar-table">
         <div className="g-listar-table-head">
-          <button onClick={() => ordenarLista()}>
-            Ordenar
-            <Ordenacao ordenarAsc={ordenarAsc} ordenarDesc={ordenarDesc} />
-          </button>
-          <p>Tarefas</p>
-          <a href="/cadastrar">Nova tarefa</a>
-
           <input
             type='search'
             value={filtro}
             onChange={filtraTarefa}
             data-testid="Inputsearch"
+            placeholder='Digita sua busca'
           />
+
+          <button onClick={() => ordenarLista()}>
+            <Ordenacao ordenarAsc={ordenarAsc} ordenarDesc={ordenarDesc} />
+          </button>
+          <a href="/cadastrar">Nova tarefa <i className="fa-solid fa-plus"></i></a>
         </div>
 
         <div className="g-listar-body" data-testid="tabela">

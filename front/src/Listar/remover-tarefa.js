@@ -25,23 +25,23 @@ function RemoverTarefa(props) {
 
   return (
     <div>
-      <button onClick={() => abrirModal()} data-testid="btn-abrir-modal">
-        Excluir
+      <button onClick={() => abrirModal()} className="g-delete" data-testid="btn-abrir-modal">
+        <i className="fa-solid fa-trash"></i>
       </button>
 
-      <div className="g-concluir-modal-overley"></div>
-      <div className={`g-concluir-modal-container ${modal ? 'g-concluir-modal-container' : ''}`} data-testid="modal">
+      <div className={`g-concluir-modal-overley ${modal ? 'g-concluir-modal-overley--active' : ''}`}></div>
+      <div className={`g-concluir-modal-container ${modal ? 'g-concluir-modal-container--active' : ''}`} data-testid="modal">
         <div className="g-concluir-modal-header">
           <span>Remover tarefa</span>
-          <button className="g-concluir-modal-header-btn" onClick={() => fecharModal()}>X</button>
+          <button className="g-concluir-modal-header-btn" onClick={() => fecharModal()}><i className="fa-solid fa-x"></i></button>
         </div>
         <div className="g-concluir-modal-body">
           <span>Você realmente deseja Remover a seguinte tarefa?</span>
           <span className="g-concluir-modal-body--bold">{props.tarefas.nome}</span>
         </div>
         <div className="g-concluir-modal-footer">
+          <button className="g-concluir-modal-btn-close" data-testid="modal-btn-fechar" onClick={fecharModal}>Não</button>
           <button className="g-concluir-modal-btn-success" onClick={() => removerTarefa()} data-testid="modal-btn-remover">Sim</button>
-          <button className="g-concluir-modal-btn-close" data-testid="modal-btn-fechar">Não</button>
         </div>
       </div>
     </div>

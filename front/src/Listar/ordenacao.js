@@ -5,8 +5,8 @@ function Ordenacao(props) {
   return (
     <>
       <span>
-        Icon 1
-        Icon 2
+        <i className="fa-solid fa-arrow-up-z-a"></i>
+        <i className="fa-solid fa-arrow-down-z-a"></i>
       </span>
     </>
   );

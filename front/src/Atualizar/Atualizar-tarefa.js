@@ -52,7 +52,7 @@ function AtualizarTarefa(props) {
   return (
     <div className="g-atualizar-container">
 
-      <h1 className="g-atualizar-title">Atualizar</h1>
+      <h3 className="g-atualizar-title">Atualizar</h3>
 
       <div className="g-atualizar-form__container">
         <form onSubmit={atualizar}>
@@ -67,16 +67,16 @@ function AtualizarTarefa(props) {
           />
 
           <div className="g-atualizar-btn__group">
-            <button type="submit" onClick={() => abrirModal()} data-testid="btn-atualizar">Atualizar</button>
-            <a href="/">Voltar</a>
+            <a href="/" className="g-btn-back">Voltar</a>
+            <button className="g-btn-submit" type="submit" onClick={() => abrirModal()} data-testid="btn-atualizar">Atualizar</button>
           </div>
         </form>
 
-        <div className="g-atualizar-modal-overley"></div>
-        <div className={`g-atualizar-modal-container ${modal ? 'g-atualizar-modal-container' : ''}`} data-testid="modal">
+        <div className={`g-atualizar-modal-overley ${modal ? 'g-atualizar-modal-overley--active' : ''}`}></div>
+        <div className={`g-atualizar-modal-container ${modal ? 'g-atualizar-modal-container--active' : ''}`} data-testid="modal">
           <div className="g-atualizar-modal-header">
             <span>atualizar tarefa</span>
-            <button className="g-atualizar-modal-header-btn" onClick={() => fecharModal()}>X</button>
+
           </div>
           <div className="g-atualizar-modal-body">
             <span>Tarefa atualizada com sucesso!</span>

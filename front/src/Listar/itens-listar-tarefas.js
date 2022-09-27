@@ -16,23 +16,24 @@ function ItensListarTarefas(props) {
     props.tarefas.map(tarefa =>
       <div className="g-listar-tarefas-box" key={tarefa.id} data-testid="tarefa">
 
-        <p className={tarefa.concluida ? "g-listar-tarefas-marcada" : ''} data-testid="tarefa-nome">{tarefa.nome}</p>
+        <p className={tarefa.concluida ? "g-listar-tarefas-marcada" : 'g-listar-tarefas-nome'} data-testid="tarefa-nome">{tarefa.nome}</p>
 
-        <div>
+        <div className="g-listar-tarefas-box-action">
           <ConcluirTarefa
             tarefas={tarefa}
             recarregarTarefas={props.recarregarTarefas}
             className={tarefa.concluida ? 'g-listar-tarefas-modal-hidde' : ''}
           />
-
-
-          <RemoverTarefa
-            tarefas={tarefa}
-            recarregarTarefas={props.recarregarTarefas} />
         </div>
 
         <div className={tarefa.concluida ? 'g-listar-tarefas-btn--edit_none' : 'g-listar-tarefas-btn--edit'}>
-          <A href={"/atualizar/" + tarefa.id}>Editar</A>
+          <A href={"/atualizar/" + tarefa.id}><i className="fa-solid fa-pencil"></i></A>
+        </div>
+
+        <div className="g-listar-tarefas-box-action">
+          <RemoverTarefa
+            tarefas={tarefa}
+            recarregarTarefas={props.recarregarTarefas} />
         </div>
       </div>
     )

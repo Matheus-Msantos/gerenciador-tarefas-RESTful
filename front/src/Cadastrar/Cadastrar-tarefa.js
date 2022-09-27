@@ -30,7 +30,6 @@ function CadastrarTarefa() {
         <form onSubmit={(e) => {
           submitForm(e);
         }}>
-          <label>Tarefa</label>
           <input
             value={tarefa}
             type="text"
@@ -42,6 +41,7 @@ function CadastrarTarefa() {
             }}
             required
             data-testid="text-tarefa"
+            placeholder='Nome da tarefa'
           />
 
           <div className="g-cadastrar-grupo-btn">
