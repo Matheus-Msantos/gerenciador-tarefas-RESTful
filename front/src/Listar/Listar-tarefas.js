@@ -2,10 +2,12 @@ import React, { useState, useEffect } from 'react';
 import ItensListarTarefas from './itens-listar-tarefas';
 import Paginacao from './paginacao';
 import Ordenacao from './ordenacao';
+import axios from 'axios';
 
 function ListarTarefas() {
 
   const ITENS_POR_PAG = 10
+  const API_URL_LISTAR_TAREFAS = 'http://localhost:3001/gerenciador-tarefas';
 
   const [tarefas, setTarefas] = useState([]);
   const [carregarTarefas, setCarregarTarefas] = useState(true);
@@ -17,20 +19,22 @@ function ListarTarefas() {
 
   useEffect(() => {
 
-    const obterTarefas = () => {
-      const tarefasDb = localStorage['tarefas'];
-      let listaTarefas = tarefasDb ? JSON.parse(tarefasDb) : [];
+    const obterTarefas = async () => {
 
-      listaTarefas = listaTarefas.filter(tarefa => tarefa.nome.toLowerCase().indexOf(filtro.toLowerCase()) === 0)
+      let ordem = '';
+      if (ordenarAsc)
+        ordem = 'ASC';
+      else if (ordenarDesc)
+        ordem = 'DESC';
 
-      if (ordenarAsc) {
-        listaTarefas.sort((l1, l2) => (l1.nome.toLowerCase() > l2.nome.toLowerCase() ? 1 : -1));
-      } else if (ordenarDesc) {
-        listaTarefas.sort((l1, l2) => (l1.nome.toLowerCase() < l2.nome.toLowerCase() ? 1 : -1));
+      try {
+        const params = `?pag=${paginaAtual}&ordem=${ordem}&filtro-tarefa=${filtro}`
+        let { data } = await axios.get(API_URL_LISTAR_TAREFAS + params);
+        setTotalItems(data.totalItens);
+        setTarefas(data.tarefas);
+      } catch (err) {
+        setTarefas([]);
       }
-
-      setTotalItems(listaTarefas.length);
-      setTarefas(listaTarefas.splice((paginaAtual - 1) * ITENS_POR_PAG, ITENS_POR_PAG));
     }
 
     if (carregarTarefas) {
