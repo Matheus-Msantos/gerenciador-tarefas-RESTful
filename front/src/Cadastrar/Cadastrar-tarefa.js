@@ -6,6 +6,7 @@ function CadastrarTarefa() {
   const [tarefa, setTarefa] = useState('');
   const [validar, setValidar] = useState(false);
   const [modal, setModal] = useState(false);
+  const [modalErr, setModalErr] = useState(false);
 
   const submitForm = (e) => {
     e.preventDefault();
@@ -20,6 +21,10 @@ function CadastrarTarefa() {
 
   const mostrarModal = (item) => {
     setModal(item);
+  }
+
+  const mostrarModalErr = (item) => {
+    setModalErr(item);
   }
 
   return (
@@ -62,6 +67,19 @@ function CadastrarTarefa() {
         <div className="g-cadastrar-modal-footer">
           <a href="/" className="g-btn-back">Voltar</a>
           <button className="g-cadastrar-modal-btn--new" onClick={() => mostrarModal(false)}>Criar nova tarefa</button>
+        </div>
+      </div>
+
+      <div className={modalErr ? `g-cadastrar-modal-overley--active` : `g-cadastrar-modal-overley`} onClick={() => mostrarModalErr(false)}></div>
+      <div className={modalErr ? `g-cadastrar-modal-container--active` : 'g-cadastrar-modal-container'} data-testid="modal">
+        <div className="g-cadastrar-modal-header">
+          <p>Erro</p>
+        </div>
+        <div className="g-cadastrar-modal-body">
+          <p>Erro ao adicionar tarefa, tente novamente mais tarde!</p>
+        </div>
+        <div className="g-cadastrar-modal-footer">
+          <button className="g-cadastrar-modal-btn--new" onClick={() => mostrarModalErr(false)}>Fechar</button>
         </div>
       </div>
     </div>
