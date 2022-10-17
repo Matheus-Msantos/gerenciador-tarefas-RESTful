@@ -25,7 +25,7 @@ function AtualizarTarefa(props) {
 
     try {
       const tarefaAtualizar = new TarefaModel(null, tarefa, false);
-      await axios.put(API_URL_TAREFAS + props.id, tarefaAtualizar);
+      await axios.put(API_URL_TAREFAS + props.id, tarefaAtualizar)
       setModal(true)
     } catch (err) {
       setModalErr(true)
