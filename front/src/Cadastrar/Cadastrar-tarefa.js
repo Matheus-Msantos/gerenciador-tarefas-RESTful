@@ -77,7 +77,7 @@ function CadastrarTarefa() {
       </div>
 
       <div className={modalErr ? `g-cadastrar-modal-overley--active` : `g-cadastrar-modal-overley`} onClick={() => mostrarModalErr(false)}></div>
-      <div className={modalErr ? `g-cadastrar-modal-container--active` : 'g-cadastrar-modal-container'} data-testid="modal">
+      <div className={modalErr ? `g-cadastrar-modal-container--active` : 'g-cadastrar-modal-container'} data-testid="modalErr">
         <div className="g-cadastrar-modal-header">
           <p>Erro</p>
         </div>

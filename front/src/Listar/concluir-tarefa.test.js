@@ -5,21 +5,12 @@ import Tarefas from '../Models/Tarefa.model';
 import ConcluirTarefa from './concluir-tarefa'
 import '@testing-library/jest-dom/extend-expect'
 import Tarefa from "../Models/Tarefa.model";
+import axiosMock from 'axios';
 
 describe('Teste do componente concluir tarefa', () => {
 
   const nomeTarefa = 'Tarefa';
   const tarefa = new Tarefa(1, nomeTarefa, false);
-
-  it('Redenrizar componente', () => {
-    const div = document.createElement('div');
-    ReactDom.render(
-      <ConcluirTarefa
-        tarefas={tarefa}
-        recarregarTarefas={() => false}
-        className="teste" />, div);
-    ReactDom.unmountComponentAtNode(div);
-  });
 
   it('Abrir modal', () => {
     const { getByTestId } = render(
@@ -32,9 +23,8 @@ describe('Teste do componente concluir tarefa', () => {
     expect(getByTestId('modal')).toHaveTextContent(nomeTarefa);
   });
 
-  it('Concluir tarefa', () => {
-    localStorage['tarefas'] = JSON.stringify([tarefa]);
-    const { getByTestId } = render(
+  it('Concluir tarefa', async () => {
+    const { getByTestId, findByTestId } = render(
       <ConcluirTarefa
         tarefas={tarefa}
         recarregarTarefas={() => false}
@@ -42,9 +32,7 @@ describe('Teste do componente concluir tarefa', () => {
     );
     fireEvent.click(getByTestId('btn-abrir-modal'));
     fireEvent.click(getByTestId('modal-btn-concluir'));
-    const tarefaDb = JSON.parse(localStorage['tarefas']);
-    //toBeTruthy verifica se é true
-    expect(tarefaDb[0].concluida).toBeTruthy();
-
+    await findByTestId('modal');
+    expect(axiosMock.put).toHaveBeenCalledTimes(1);
   });
 });
