@@ -1,10 +1,14 @@
 import React, { useEffect, useState } from 'react';
 import PropTypes from 'prop-types';
-
+import axios from 'axios';
+import TarefaModel from '../Models/Tarefa.model';
 
 function AtualizarTarefa(props) {
 
+  const API_URL_TAREFAS = 'http://localhost:3001/gerenciador-tarefas/';
+
   const [modal, setModal] = useState(false);
+  const [modalErr, setModalErr] = useState(false);
   const [tarefa, setTarefa] = useState('');
   const [carregarTarefa, setCarregarTarefa] = useState(true);
 
@@ -12,24 +16,20 @@ function AtualizarTarefa(props) {
     setModal(true);
   }
 
-  const fecharModal = () => {
-    setModal(false);
+  const mostrarModalErr = (item) => {
+    setModalErr(item);
   }
 
-  const atualizar = (e) => {
+  const atualizar = async (e) => {
     e.preventDefault();
 
-    const tarefaDb = localStorage["tarefas"];
-    let tarefas = tarefaDb ? JSON.parse(tarefaDb) : [];
-
-    tarefas = tarefas.map(t => {
-      if (t.id === parseInt(props.id)) {
-        t.nome = tarefa
-      }
-      return t;
-    });
-
-    localStorage['tarefas'] = JSON.stringify(tarefas);
+    try {
+      const tarefaAtualizar = new TarefaModel(null, tarefa, false);
+      await axios.put(API_URL_TAREFAS + props.id, tarefaAtualizar);
+      setModal(true)
+    } catch (err) {
+      setModalErr(true)
+    }
   }
 
   const txtTarefa = (e) => {
@@ -37,14 +37,18 @@ function AtualizarTarefa(props) {
   }
 
   useEffect(() => {
+    async function obterTarefa() {
+      try {
+        let { data } = await axios.get(API_URL_TAREFAS + props.id);
+        setTarefa(data.nome);
+      } catch (err) {
+        mostrarModalErr(true);
+      }
+    }
+
     if (carregarTarefa) {
-      const tarefaDb = localStorage["tarefas"];
-      const tarefas = tarefaDb ? JSON.parse(tarefaDb) : [];
-      const tarefa = tarefas.filter(
-        t => t.id === parseInt(props.id)
-      )[0];
-      console.log(tarefa)
-      setTarefa(tarefa.nome);
+
+      obterTarefa();
       setCarregarTarefa(false);
     }
   }, [carregarTarefa, props]);
@@ -84,6 +88,19 @@ function AtualizarTarefa(props) {
           <div className="g-atualizar-modal-footer">
             <a href="/" className="g-atualizar-modal-btn-success" data-testid="modal-btn-atualizar">Fechar</a>
           </div>
+        </div>
+      </div>
+
+      <div className={modalErr ? `g-cadastrar-modal-overley--active` : `g-cadastrar-modal-overley`} onClick={() => mostrarModalErr(false)}></div>
+      <div className={modalErr ? `g-cadastrar-modal-container--active` : 'g-cadastrar-modal-container'} data-testid="modal">
+        <div className="g-cadastrar-modal-header">
+          <p>Erro</p>
+        </div>
+        <div className="g-cadastrar-modal-body">
+          <p>Erro ao atualizar' tarefa, tente novamente mais tarde!</p>
+        </div>
+        <div className="g-cadastrar-modal-footer">
+          <button className="g-cadastrar-modal-btn--new" onClick={() => mostrarModalErr(false)}>Fechar</button>
         </div>
       </div>
 
