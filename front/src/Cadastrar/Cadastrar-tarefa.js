@@ -1,22 +1,28 @@
 import React, { useState } from 'react';
 import Tarefa from '../Models/Tarefa.model';
+import axios from 'axios';
 
 function CadastrarTarefa() {
+  const API_URL_CADASTRAR_TAREFA = 'http://localhost:3001/gerenciador-tarefas';
 
   const [tarefa, setTarefa] = useState('');
   const [validar, setValidar] = useState(false);
   const [modal, setModal] = useState(false);
   const [modalErr, setModalErr] = useState(false);
 
-  const submitForm = (e) => {
+  const submitForm = async (e) => {
     e.preventDefault();
 
-    const tarefasDb = localStorage['tarefas'];
-    const tarefas = tarefasDb ? JSON.parse(tarefasDb) : [];
-    tarefas.push(new Tarefa(new Date().getTime(), tarefa, false));
-    localStorage['tarefas'] = JSON.stringify(tarefas);
+    try {
+      const novaTarefa = new Tarefa(null, tarefa, false);
+      await axios.post(API_URL_CADASTRAR_TAREFA, novaTarefa);
+      mostrarModal(true);
 
-    mostrarModal(true);
+    } catch (err) {
+      mostrarModalErr(true);
+
+    }
+
   }
 
   const mostrarModal = (item) => {
